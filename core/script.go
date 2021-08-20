@@ -3,15 +3,16 @@ package core
 import (
 	"crypto/tls"
 	"errors"
-	lua "github.com/yuin/gopher-lua"
 	"io"
 	"io/ioutil"
-	luajson "layeh.com/gopher-json"
 	"net/http"
 	"net/http/cookiejar"
 	"regexp"
 	"strings"
 	"time"
+
+	lua "github.com/yuin/gopher-lua"
+	luajson "layeh.com/gopher-json"
 )
 
 const (
@@ -26,8 +27,8 @@ const (
 
 	defaultTLSConnectTimeout = 3 * time.Second
 	defaultHandshakeDeadline = 5 * time.Second
-
-	SUBRE = "(([a-zA-Z0-9]{1}|[_a-zA-Z0-9]{1}[_a-zA-Z0-9-]{0,61}[a-zA-Z0-9]{1})[.]{1})+"
+	SUBRE                    = "^([a-zA-Z0-9][-a-zA-Z0-9]{0,62}\\.)+([a-zA-Z]{2,63})\\.?(:(6[0-5]{2}[0-3][0-5]|[1-5]\\d{4}|[1-9]\\d{1,3}|[0-9])$)?"
+	// SUBRE = "(([a-zA-Z0-9]{1}|[_a-zA-Z0-9]{1}[_a-zA-Z0-9-]{0,61}[a-zA-Z0-9]{1})[.]{1})+"
 )
 
 func getStringField(L *lua.LState, t lua.LValue, key string) (string, bool) {
